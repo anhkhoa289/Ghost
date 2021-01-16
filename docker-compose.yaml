@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  csdl:
+    image: mysql:8.0.22
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ghostly
+      MYSQL_DATABASE: blog
+    ports:
+      - 3306:3306
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: csdl
+      MYSQL_ROOT_PASSWORD: ghostly
+    ports:
+      - 8080:80
+
+  # phpmyadmin-2:
+  #   image: phpmyadmin
+  #   environment:
+  #     PMA_HOST: csdl
+  #     MYSQL_ROOT_PASSWORD: ghostly
+  #   ports:
+  #     - 8081:80
