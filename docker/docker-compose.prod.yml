@@ -6,6 +6,9 @@ services:
       dockerfile: ./docker/prod/web/Dockerfile
     depends_on:
       - csdl
+    networks:
+      - web
+      - default
     labels:
       traefik.http.routers.staging-blog.rule: Host(`staging.blog.stunited.vn`)
       traefik.http.routers.staging-blog.entrypoints: websecure
@@ -26,3 +29,7 @@ services:
   #     MYSQL_ROOT_PASSWORD: ghostly
   #   ports:
   #     - 8080:80
+
+networks:
+  web:
+    external: true
