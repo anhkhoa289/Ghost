@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: ./docker/prod/web/Dockerfile
+    depends_on:
+      - csdl
+    labels:
+      traefik.http.routers.staging-blog.rule: Host(`staging.blog.stunited.vn`)
+      traefik.http.routers.staging-blog.entrypoints: websecure
+      traefik.http.routers.staging-blog.tls.certresolver: myresolver
+    
+  csdl:
+    image: mysql:8.0.22
+    platform: linux/x86_64
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ghostly
+      MYSQL_DATABASE: blog
+  
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     PMA_HOST: csdl
+  #     MYSQL_ROOT_PASSWORD: ghostly
+  #   ports:
+  #     - 8080:80

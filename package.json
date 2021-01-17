@@ -27,6 +27,7 @@
     "ci": "grunt validate --verbose",
     "ci:regression": "grunt test-regression --verbose",
     "setup": "yarn install && knex-migrator init && grunt symlink && grunt init || (exit 0)",
+    "prod": "knex-migrator init && grunt symlink && grunt init || (exit 0) && node index",
     "lint:server": "eslint --ignore-path .eslintignore 'core/server/**/*.js' 'core/*.js' '*.js'",
     "lint:shared": "eslint --ignore-path .eslintignore 'core/shared/**/*.js'",
     "lint:frontend": "eslint --ignore-path .eslintignore 'core/frontend/**/*.js'",
