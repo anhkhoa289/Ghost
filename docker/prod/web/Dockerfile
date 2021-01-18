@@ -8,14 +8,13 @@ RUN yarn global add knex-migrator grunt-cli ember-cli
 
 COPY ./ /app
 
-ENV NODE_ENV=production
-
-RUN yarn install --production=false
+# RUN yarn install --production=false
 RUN yarn add -D matchdep
 RUN cd core/client
-RUN yarn install --production=false
 RUN yarn add -D matchdep
 RUN cd ../..
+
+ENV NODE_ENV=production
 RUN grunt prod 
 
 RUN apk del .gyp
