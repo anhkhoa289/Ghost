@@ -2,7 +2,8 @@ FROM node:14.15.4-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache --virtual .gyp python make g++ git
+RUN apk add --no-cache curl git
+RUN apk add --no-cache --virtual .gyp python make g++
 
 RUN yarn global add knex-migrator grunt-cli ember-cli
 

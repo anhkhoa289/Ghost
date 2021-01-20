@@ -2,7 +2,7 @@ version: "3.9"
 services:
   web:
     build:
-      context: ../
+      context: ./
       dockerfile: ./docker/prod/web/Dockerfile
     depends_on:
       - csdl
@@ -10,6 +10,7 @@ services:
       - web
       - default
     labels:
+      traefik.enable: true
       traefik.http.routers.staging-blog.rule: Host(`staging.blog.stunited.vn`)
       traefik.http.routers.staging-blog.entrypoints: websecure
       traefik.http.routers.staging-blog.tls.certresolver: myresolver
@@ -21,14 +22,22 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ghostly
       MYSQL_DATABASE: blog
-  
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   environment:
-  #     PMA_HOST: csdl
-  #     MYSQL_ROOT_PASSWORD: ghostly
-  #   ports:
-  #     - 8080:80
+    networks:
+      - default
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: csdl
+      MYSQL_ROOT_PASSWORD: ghostly
+    labels:
+      traefik.enable: true
+      traefik.http.routers.phpmyadmin.rule: Host(`phpmyadmin.staging.blog.stunited.vn`)
+      traefik.http.routers.phpmyadmin.entrypoints: websecure
+      traefik.http.routers.phpmyadmin.tls.certresolver: myresolver
+    networks:
+      - web
+      - default
 
 networks:
   web:
